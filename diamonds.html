@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D.$. Replica Jewelry - Diamonds</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
+    <link rel="icon" href="images/icon.png" type="image/png">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background-color: white;
+            color: black;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .header {
+            padding: 10px 20px;
+            background-color: white;
+            border-bottom: 1px solid black;
+        }
+        .logo img {
+            max-width: 100%;
+            height: auto;
+            max-height: 60px; /* Adjusted height for consistency */
+        }
+        .nav {
+            margin-top: 10px; /* Reduced margin for consistency */
+        }
+        .nav a {
+            text-decoration: none;
+            color: black;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin: 0 15px; /* Reduced margin for consistency */
+            font-size: 16px; /* Reduced font size for consistency */
+        }
+        .nav a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            padding: 40px 20px;
+            flex: 1; /* Allows the container to take up available space */
+        }
+        .container h1 {
+            font-size: 28px;
+            margin: 0;
+            padding: 0;
+            font-weight: 700;
+        }
+        .calculator {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
+        .calculator label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .calculator input[type="number"] {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .calculator .diamond-type {
+            margin-bottom: 20px;
+        }
+        .calculator .diamond-type input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        .calculator .diamond-type label {
+            font-weight: 400;
+            font-size: 16px;
+        }
+        .calculator .buy-button {
+            display: block;
+            width: calc(100% - 30px);
+            margin: 20px auto;
+            padding: 10px;
+            background-color: black;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 700;
+        }
+        .calculator .buy-button:hover {
+            background-color: #333;
+        }
+        .footer {
+            padding: 20px 0;
+            background-color: black;
+            color: white;
+            border-top: 1px solid #333;
+        }
+        .footer p {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 400;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <img src="logo.png" alt="D.$. Logo">
+        </div>
+        <nav class="nav">
+            <a href="index.html">Shop</a>
+            <a href="diamonds.html">Diamonds</a>
+            <a href="about.html">About</a>
+        </nav>
+    </header>
+    <section class="container">
+        <h1>Diamond Price Calculator</h1>
+        <div class="calculator">
+            <form id="calculator-form">
+                <label for="carat">Carat Amount:</label>
+                <input type="number" id="carat" name="carat" min="0.01" step="0.01" placeholder="Enter carat amount" required>
+
+                <div class="diamond-type">
+                    <label><input type="checkbox" name="diamond-type" value="vs" onclick="selectDiamondType(this)"> VS Diamonds</label>
+                    <label><input type="checkbox" name="diamond-type" value="lab" onclick="selectDiamondType(this)"> Lab Diamonds</label>
+                    <label><input type="checkbox" name="diamond-type" value="moissanite" onclick="selectDiamondType(this)"> Moissanite Diamonds</label>
+                    <label><input type="checkbox" name="diamond-type" value="glass" onclick="selectDiamondType(this)"> Glass Diamonds</label>
+                </div>
+
+                <a href="#" id="buy-button" class="buy-button">Pay ($0.00)</a>
+            </form>
+        </div>
+    </section>
+    <footer class="footer">
+        <p>&copy; 2024 D.$. Replica Jewelry. All rights reserved.</p>
+    </footer>
+    <script>
+        // Price per carat
+        const prices = {
+            vs: 3285.03,        // Example price
+            lab: 628.78,       // Example price
+            moissanite: 46.02, // Example price
+            glass: 0.68
+        };
+
+        // Ensure only one checkbox is selected
+        function selectDiamondType(checkbox) {
+            const checkboxes = document.querySelectorAll('input[name="diamond-type"]');
+            checkboxes.forEach(cb => {
+                if (cb !== checkbox) cb.checked = false;
+            });
+            updatePrice();
+        }
+
+        // Update the price and button text
+        function updatePrice() {
+            const selectedCheckbox = document.querySelector('input[name="diamond-type"]:checked');
+            const carat = parseFloat(document.getElementById('carat').value);
+            if (!selectedCheckbox || isNaN(carat)) {
+                document.getElementById('buy-button').textContent = 'Pay ($0.00)';
+                return;
+            }
+            const type = selectedCheckbox.value;
+            const pricePerCarat = prices[type];
+            const totalPrice = carat * pricePerCarat;
+            document.getElementById('buy-button').textContent = `Pay ($${totalPrice.toFixed(2)})`;
+        }
+
+        // Attach event listeners
+        document.getElementById('carat').addEventListener('input', updatePrice);
+        document.querySelectorAll('input[name="diamond-type"]').forEach(cb => {
+            cb.addEventListener('change', updatePrice);
+        });
+    </script>
+</body>
+</html>
