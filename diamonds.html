@@ -118,9 +118,9 @@
             <img src="logo.png" alt="D.$. Logo">
         </div>
         <nav class="nav">
-            <a href="/">Shop</a>
-            <a href="diamonds">Diamonds</a>
-            <a href="about">About</a>
+            <a href="index.html">Shop</a>
+            <a href="diamonds.html">Diamonds</a>
+            <a href="about.html">About</a>
         </nav>
     </header>
     <section class="container">
@@ -162,6 +162,11 @@
             updatePrice();
         }
 
+        // Generate a random order ID
+        function generateOrderId() {
+            return 'ORD-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+        }
+
         // Update the price and button text
         function updatePrice() {
             const selectedCheckbox = document.querySelector('input[name="diamond-type"]:checked');
@@ -174,6 +179,11 @@
             const pricePerCarat = prices[type];
             const totalPrice = carat * pricePerCarat;
             document.getElementById('buy-button').textContent = `Pay ($${totalPrice.toFixed(2)})`;
+
+            // Update the button link
+            const orderId = generateOrderId();
+            const checkoutUrl = `checkout.html?amount=${totalPrice.toFixed(2)}&random_id=${orderId}`;
+            document.getElementById('buy-button').setAttribute('href', checkoutUrl);
         }
 
         // Attach event listeners
